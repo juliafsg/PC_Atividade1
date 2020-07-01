@@ -35,7 +35,7 @@ public class MainThread {
 	        
 	    List<String> arquivo_B = Files.readAllLines(caminho_B);
 		System.out.println("\n Matriz B");
-	    for (String linha : arquivo_A) {
+	    for (String linha : arquivo_B) {
 	        System.out.println(linha);
 	    }    
 		 
