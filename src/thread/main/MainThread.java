@@ -6,74 +6,68 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import thread.arquivos.ManipulacaoArquivo;
+import thread.matrizes.MatrizConcorrente;
+import thread.matrizes.MatrizSequencial;
 public class MainThread {
 
 	public static void main(String[] args) throws IOException {	
+		
 		int dimensao = 0;
+		String metodo;
+		// Criação das matrizes a serem trabalhadas
+		int[][] matrizA = new int[dimensao][dimensao];
+		int[][] matrizB = new int[dimensao][dimensao];
+		int[][] matrizC = new int[dimensao][dimensao];
+		
+		
+		// Leitura das dimensões da matriz
 		try {
-			// Leitura das dimensões da matriz
 			dimensao = ManipulacaoArquivo.leituraDimensaoMatriz(args[0]);
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
 
-		// Leitura do argumento de tipo de execução a ser feita
+		// Leitura do tipo de execução 
 		try {
-			String metodo = args[1];
+			metodo = args[1];
 			ManipulacaoArquivo.leituraMetodoMatriz(metodo);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return;
 		}
 		
-		// Criação das matrizes a serem trabalhadas
-		int[][] matriz_A = new int[dimensao][dimensao];
-		int[][] matriz_B = new int[dimensao][dimensao];
-		int[][] matriz_C = new int[dimensao][dimensao];
+		// Leitura do arquivo
+		try {
+			matrizA = ManipulacaoArquivo.leituraArquivo("A");
+			matrizB = ManipulacaoArquivo.leituraArquivo("B");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}	
 		
-		//Manipulação dos Arquivos
-		System.out.println("Leitura dos Arquivos...");
-		String diretorio_atual = System.getProperty("user.dir");
-		Path caminho_A = Paths.get(diretorio_atual+"/matrizes/A" + dimensao + "x" + dimensao + ".txt");
-		Path caminho_B = Paths.get(diretorio_atual+"/matrizes/B" + dimensao + "x" + dimensao + ".txt");		
-
-		List<String> arquivo_A = Files.readAllLines(caminho_A);
-		System.out.println("\n Matriz A");
-		int i = 0, j = 0;
-		arquivo_A.remove(0);
-		for (String linha : arquivo_A) {
-			System.out.println(linha);
-			for (String numero: linha.split(" ")) {
-				try {
-					matriz_A[i][j] = Integer.parseInt(numero);
-				} catch (Exception e) {
-					System.out.println("Não foi possivel converter a matriz A para números");
-				}
-				j++;
-			}
-			j = 0;
-			i++;
+		// Mutiplicação Sequencial
+		if(metodo.equals("S")) {
+			MatrizSequencial sequencial = new MatrizSequencial(matrizA, matrizB, dimensao);			
+			matrizC = sequencial.multiplicarMatrizes();
+			ManipulacaoArquivo.imprimirMatriz(matrizC, "C");
 		}
 		
-		i = 0; 
-		j = 0;
-		List<String> arquivo_B = Files.readAllLines(caminho_B);
-		arquivo_B.remove(0);
-		System.out.println("\n Matriz B");
-		for (String linha : arquivo_B) {
-			System.out.println(linha);
-			for (String numero: linha.split(" ")) {
-				try {
-					matriz_B[i][j] = Integer.parseInt(numero);
-				} catch (Exception e) {
-					System.out.println("Não foi possivel converter a matriz B para números");
-				}
-				j++;
-			}
-			j = 0;
-			i++;
-		}    
+		// Mutiplicação Concorrente
+		if(metodo.equals("C")) {
+			MatrizConcorrente concorrente = new MatrizConcorrente(matrizA, matrizB, dimensao);			
+			//matrizC = concorrente.multiplicarMatrizes();
+			ManipulacaoArquivo.imprimirMatriz(matrizC, "C");
+		}
+		
+		// Gerar txt com resultado da multiplicação
+		try {
+			ManipulacaoArquivo.gerarArquivoMatriz(matrizC, "C");			
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+			return;
+		}
 
 	}
 

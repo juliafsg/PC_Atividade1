@@ -1,12 +1,23 @@
 package thread.matrizes;
 
-public class MatrizConcorrente extends Thread{
-	public MatrizConcorrente(String nome) {
-		super(nome);
-	}
+public class MatrizConcorrente  extends Thread{
 	
-	@Override
-	public void run () {
-		System.out.println("Hi my name is " + this.getName());
+	private int[][] matrizA;
+	private int[][] matrizB;
+	private int[][] matrizC;
+	
+	static int dimensao;
+	
+	public MatrizConcorrente(int[][] matrizA, int[][] matrizB, int dimensao) {
+		this.matrizA = matrizA;
+		this.matrizB = matrizB;
+		this.matrizC = new int[dimensao][dimensao];	
+		MatrizSequencial.dimensao = dimensao;
 	}
+
+	@Override
+	public void run () {	
+		
+	}
+
 }
