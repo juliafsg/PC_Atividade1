@@ -1,4 +1,4 @@
-package thread.start;
+package thread.main;
 
 public class Thread1 extends Thread {
 
@@ -8,6 +8,6 @@ public class Thread1 extends Thread {
 	
 	@Override
 	public void run () {
-		System.out.println("Hi my name is "+this.getName());
+		System.out.println("Hi my name is " + this.getName());
 	}
 }
