@@ -64,7 +64,7 @@ public class ManipulacaoArquivo {
 			j = 0;
 			i++;
 		}
-		imprimirMatriz(matriz, nomeMatriz);
+		//imprimirMatriz(matriz, nomeMatriz);
 		return matriz;
 	}
 	

@@ -49,20 +49,27 @@ public class MainThread {
 		// Mutiplicação Sequencial
 		if(metodo.equals("S")) {
 			MatrizSequencial sequencial = new MatrizSequencial(matrizA, matrizB, dimensao);			
+			long tempoInicial = System.currentTimeMillis();
 			matrizC = sequencial.multiplicarMatrizes();
-			ManipulacaoArquivo.imprimirMatriz(matrizC, "C");
+			long tempoFinal = System.currentTimeMillis() - tempoInicial;
+			System.out.println("\n O método Sequencial executou em: "+ tempoFinal+" ms");
+			//ManipulacaoArquivo.imprimirMatriz(matrizC, "C");
 		}
 		
 		// Mutiplicação Concorrente
 		if(metodo.equals("C")) {
-			MatrizConcorrente concorrente = new MatrizConcorrente(matrizA, matrizB, dimensao);			
-			//matrizC = concorrente.multiplicarMatrizes();
-			ManipulacaoArquivo.imprimirMatriz(matrizC, "C");
+			MatrizConcorrente concorrente = new MatrizConcorrente(matrizA, matrizB, dimensao);	
+			long tempoInicial = System.currentTimeMillis();
+			concorrente.multiplicarMatrizes();
+			long tempoFinal = System.currentTimeMillis() - tempoInicial;
+			System.out.println("\n O método Concorrente executou em: "+ tempoFinal+" ms");
+			matrizC = concorrente.getMatrizC();
+			//ManipulacaoArquivo.imprimirMatriz(matrizC, "C");
 		}
 		
 		// Gerar txt com resultado da multiplicação
 		try {
-			ManipulacaoArquivo.gerarArquivoMatriz(matrizC, "C");			
+			//ManipulacaoArquivo.gerarArquivoMatriz(matrizC, "C");	
 		}
 		catch (Exception e){
 			System.out.println(e.getMessage());
