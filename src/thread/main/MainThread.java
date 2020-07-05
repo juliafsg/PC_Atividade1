@@ -20,9 +20,9 @@ public class MainThread {
 
 		String[] tempos = new String[20];
 
-		List<String> dimensoes_possiveis = Arrays.asList("4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048");
+		List<String> dimensoes_possiveis = Arrays.asList("1024", "2048");
 
-		String[] metodos = {"S", "C"};
+		String[] metodos = {"C"};
 
 		String nomeMetodosCompleto = "";
 
@@ -59,7 +59,7 @@ public class MainThread {
 					return;
 				}	
 
-				for (int vezes = 0; vezes < 20; vezes++) {
+				for (int vezes = 0; vezes < 1; vezes++) {
 					Matriz matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
 
 					if(metodo.equals("S")) {

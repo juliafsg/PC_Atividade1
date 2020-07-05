@@ -100,19 +100,20 @@ public class ManipulacaoArquivo {
 		} catch (IOException e) {
 			throw new IOException("Não foi possivel criar os arquivos resultados");
 		}
-
+		
 		String conteudo = Integer.toString(dimensaoMatriz) + " " + Integer.toString(dimensaoMatriz)+"\n";
-
+		
 		for (int linha = 0; linha < matriz.length; linha++)  { 
-			for (int coluna = 0; coluna < matriz[0].length; coluna++)  { 
-				conteudo += matriz[linha][coluna] + " "; 
-			}  
-			conteudo += "\n";
-		}  
-		System.out.print("\n");
-
-		arquivo.write(conteudo);
-		arquivo.close();
+	           for (int coluna = 0; coluna < matriz[0].length; coluna++)  { 
+	             conteudo = conteudo + matriz[linha][coluna] + " "; 
+	           }  
+	           
+	           arquivo.write(conteudo);
+	           
+	           conteudo = "\n";
+	         }  
+	    
+	    arquivo.close();
 
 	}
 
