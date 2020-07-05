@@ -1,5 +1,6 @@
 package thread.main;
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,23 +8,24 @@ import thread.arquivos.ManipulacaoArquivo;
 import thread.matrizes.Matriz;
 import thread.matrizes.MatrizConcorrente;
 import thread.matrizes.MatrizSequencial;
+
 public class MainThread {
 
 	public static void main(String[] args) throws IOException {	
 
-				int dimensao = 0;
+		int dimensao = 0;
 		//		String metodo;
 		// Criação das matrizes a serem trabalhadas
 
 
 		String[] tempos = new String[20];
-		
+
 		List<String> dimensoes_possiveis = Arrays.asList("4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048");
-		
+
 		String[] metodos = {"S", "C"};
-		
+
 		String nomeMetodosCompleto = "";
-		
+
 		for (String dimensaoString: dimensoes_possiveis) {
 			int[][] matrizA = new int[Integer.parseInt(dimensaoString)][Integer.parseInt(dimensaoString)];
 			int[][] matrizB = new int[Integer.parseInt(dimensaoString)][Integer.parseInt(dimensaoString)];
@@ -41,7 +43,7 @@ public class MainThread {
 
 				// Leitura do tipo de execução 
 				try {
-//					metodo = args[1];
+					//					metodo = args[1];
 					ManipulacaoArquivo.leituraMetodoMatriz(metodo);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
@@ -59,7 +61,7 @@ public class MainThread {
 
 				for (int vezes = 0; vezes < 20; vezes++) {
 					Matriz matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
-					
+
 					if(metodo.equals("S")) {
 						// Mutiplicação Sequencial
 						matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
@@ -69,15 +71,17 @@ public class MainThread {
 						matriz = new MatrizConcorrente(matrizA, matrizB, dimensao);
 						nomeMetodosCompleto = "concorrente";
 					}
-					
+
 					long tempoInicial = System.currentTimeMillis();
 					matriz.multiplicarMatrizes();
 					long tempoFinal = System.currentTimeMillis() - tempoInicial;
-					
+
 					matrizC = matriz.getMatrizC();
-//					System.out.println("\n O operação executou em: "+ tempoFinal+" ms");
+					//					System.out.println("\n O operação executou em: "+ tempoFinal+" ms");
 					tempos[vezes] = Long.toString(tempoFinal);
 				}
+
+				System.out.println("Escrita nos arquivos");
 				try {
 					ManipulacaoArquivo.gerarArquivoCSVTempos("matriz"+ metodo, tempos);
 					tempos = new String[20];
@@ -85,7 +89,7 @@ public class MainThread {
 					System.out.println(e.getMessage());
 					return;
 				}
-				
+
 				// Gerar .txt com resultado da multiplicação
 				try {
 					ManipulacaoArquivo.gerarArquivoMatriz(matrizC, metodo);	
@@ -94,7 +98,7 @@ public class MainThread {
 					System.out.println(e.getMessage());
 					return;
 				}
-				
+
 				System.out.println("Finalizado metodo " + nomeMetodosCompleto 
 						+ " de dimensão " + dimensao + "x" + dimensao);
 			}
