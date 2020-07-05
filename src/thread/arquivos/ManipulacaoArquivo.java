@@ -32,13 +32,13 @@ public class ManipulacaoArquivo {
 
 	// Metodo para capturar o metodo que deve ser calculada a multiplicação das matrizes
 	public static void leituraMetodoMatriz(String metodo) throws IllegalArgumentException {
-		System.out.println("Leitura dos Argumentos...");
-		System.out.println("Dimensão:" + dimensaoMatriz + "x" + dimensaoMatriz);
+		System.out.println(" Leitura dos Argumentos...");
+		//System.out.println(" Dimensão:" + dimensaoMatriz + "x" + dimensaoMatriz);
 
 		if(metodo.equals("S")) {
-			System.out.println("Metodo: Sequencial");			
+			//System.out.println(" Metodo: Sequencial");			
 		} else if (metodo.equals("C")) {
-			System.out.println("Metodo: Concorrente");
+			//System.out.println(" Metodo: Concorrente");
 		} else {
 			throw new IllegalArgumentException("Metodo escolhido incorreto");
 		}
@@ -92,10 +92,10 @@ public class ManipulacaoArquivo {
 		try {
 			if (metodo.equals("C")) {
 				arquivo = new FileWriter(new File(ManipulacaoArquivo.diretorio_atual + "/matrizes/resultados/concorrente/" + 
-						"CConcorrente" + dimensaoMatriz +"x"+dimensaoMatriz +".txt"));
+						"C" + dimensaoMatriz +"x"+dimensaoMatriz +".txt"));
 			} else {
 				arquivo = new FileWriter(new File(ManipulacaoArquivo.diretorio_atual + "/matrizes/resultados/sequencial/" + 
-						"CSequencial" + dimensaoMatriz +"x"+dimensaoMatriz +".txt"));
+						"C" + dimensaoMatriz +"x"+dimensaoMatriz +".txt"));
 			}
 		} catch (IOException e) {
 			throw new IOException("Não foi possivel criar os arquivos resultados");
@@ -114,6 +114,9 @@ public class ManipulacaoArquivo {
 	         }  
 	    
 	    arquivo.close();
+	    
+	    System.out.println("\n Arquivo criado com sucesso.");
+	    
 
 	}
 

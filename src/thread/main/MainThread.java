@@ -12,97 +12,76 @@ import thread.matrizes.MatrizSequencial;
 public class MainThread {
 
 	public static void main(String[] args) throws IOException {	
-
+		
+		// Declaração das variáveis 
 		int dimensao = 0;
-		//		String metodo;
-		// Criação das matrizes a serem trabalhadas
-
-
-		String[] tempos = new String[20];
-
-		List<String> dimensoes_possiveis = Arrays.asList("1024", "2048");
-
-		String[] metodos = {"C"};
-
-		String nomeMetodosCompleto = "";
-
-		for (String dimensaoString: dimensoes_possiveis) {
-			int[][] matrizA = new int[Integer.parseInt(dimensaoString)][Integer.parseInt(dimensaoString)];
-			int[][] matrizB = new int[Integer.parseInt(dimensaoString)][Integer.parseInt(dimensaoString)];
-			int[][] matrizC = new int[Integer.parseInt(dimensaoString)][Integer.parseInt(dimensaoString)];	
-
-			// Leitura das dimensões da matriz
-			try {
-				dimensao = ManipulacaoArquivo.leituraDimensaoMatriz(dimensaoString);
-			} catch (IllegalArgumentException e) {
-				System.out.println(e.getMessage());
-				return;
-			}
-
-			for(String metodo: metodos) {
-
-				// Leitura do tipo de execução 
-				try {
-					//					metodo = args[1];
-					ManipulacaoArquivo.leituraMetodoMatriz(metodo);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					return;
-				}
-
-				// Leitura dos arquivos das matrizes
-				try {
-					matrizA = ManipulacaoArquivo.leituraArquivo("A");
-					matrizB = ManipulacaoArquivo.leituraArquivo("B");
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					return;
-				}	
-
-				for (int vezes = 0; vezes < 1; vezes++) {
-					Matriz matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
-
-					if(metodo.equals("S")) {
-						// Mutiplicação Sequencial
-						matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
-						nomeMetodosCompleto = "sequencial";
-					} else if(metodo.equals("C")) {
-						// Mutiplicação Concorrente
-						matriz = new MatrizConcorrente(matrizA, matrizB, dimensao);
-						nomeMetodosCompleto = "concorrente";
-					}
-
-					long tempoInicial = System.currentTimeMillis();
-					matriz.multiplicarMatrizes();
-					long tempoFinal = System.currentTimeMillis() - tempoInicial;
-
-					matrizC = matriz.getMatrizC();
-					//					System.out.println("\n O operação executou em: "+ tempoFinal+" ms");
-					tempos[vezes] = Long.toString(tempoFinal);
-				}
-
-				System.out.println("Escrita nos arquivos");
-				try {
-					ManipulacaoArquivo.gerarArquivoCSVTempos("matriz"+ metodo, tempos);
-					tempos = new String[20];
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					return;
-				}
-
-				// Gerar .txt com resultado da multiplicação
-				try {
-					ManipulacaoArquivo.gerarArquivoMatriz(matrizC, metodo);	
-				}
-				catch (Exception e){
-					System.out.println(e.getMessage());
-					return;
-				}
-
-				System.out.println("Finalizado metodo " + nomeMetodosCompleto 
-						+ " de dimensão " + dimensao + "x" + dimensao);
-			}
+		String metodo;
+		
+		System.out.println("\n-- Início da Execução -- \n");
+		
+		// Leitura das dimensões da matriz
+		try {
+			dimensao = ManipulacaoArquivo.leituraDimensaoMatriz(args[0]);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+			return;
 		}
+
+		// Leitura do tipo de execução 
+		try {
+			metodo = args[1];
+			ManipulacaoArquivo.leituraMetodoMatriz(metodo);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	
+		// Criação das matrizes
+		int[][] matrizA = new int[dimensao][dimensao];
+		int[][] matrizB = new int[dimensao][dimensao];
+		int[][] matrizC = new int[dimensao][dimensao];
+
+		// Leitura dos arquivos das matrizes
+		try {
+			matrizA = ManipulacaoArquivo.leituraArquivo("A");
+			matrizB = ManipulacaoArquivo.leituraArquivo("B");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}	
+
+		// Instanciando as classes
+		Matriz matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
+
+		if(metodo.equals("S")) {
+			// Classe Sequencial
+			matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
+			
+		} else if(metodo.equals("C")) {
+			// Classe Concorrente
+			matriz = new MatrizConcorrente(matrizA, matrizB, dimensao);
+		}
+
+		// Multiplicação das matrizes
+		long tempoInicial = System.currentTimeMillis();
+		matriz.multiplicarMatrizes();
+		long tempoFinal = System.currentTimeMillis() - tempoInicial;
+		
+		System.out.println("\n A operação executou em: "+ tempoFinal+" ms");
+		
+		matrizC = matriz.getMatrizC();
+
+		// Gerar .txt com resultado da multiplicação
+		try {
+			ManipulacaoArquivo.gerarArquivoMatriz(matrizC, metodo);	
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+			return;
+		}
+
+		System.out.println("\n-- Fim da Execução -- \n");
+		
 
 	}
 

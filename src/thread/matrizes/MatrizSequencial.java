@@ -14,7 +14,7 @@ public class MatrizSequencial implements Matriz {
 		this.dimensao = dimensao; 
 	}
 	
-	// Metodo para realizar a multiplicação da matriz, de modo sequencial
+	// Metodo para realizar a multiplicação da matriz de modo sequencial
 	public void multiplicarMatrizes() {
 		for (int linha=0; linha < this.dimensao; linha++) {
 			for (int coluna=0; coluna < this.dimensao; coluna++) {
