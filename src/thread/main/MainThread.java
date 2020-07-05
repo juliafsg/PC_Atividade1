@@ -1,9 +1,6 @@
 package thread.main;
 import java.io.IOException;
 
-import java.util.Arrays;
-import java.util.List;
-
 import thread.arquivos.ManipulacaoArquivo;
 import thread.matrizes.Matriz;
 import thread.matrizes.MatrizConcorrente;

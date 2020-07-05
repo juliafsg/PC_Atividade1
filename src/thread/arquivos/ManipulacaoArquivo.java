@@ -33,13 +33,8 @@ public class ManipulacaoArquivo {
 	// Metodo para capturar o metodo que deve ser calculada a multiplicação das matrizes
 	public static void leituraMetodoMatriz(String metodo) throws IllegalArgumentException {
 		System.out.println(" Leitura dos Argumentos...");
-		//System.out.println(" Dimensão:" + dimensaoMatriz + "x" + dimensaoMatriz);
 
-		if(metodo.equals("S")) {
-			//System.out.println(" Metodo: Sequencial");			
-		} else if (metodo.equals("C")) {
-			//System.out.println(" Metodo: Concorrente");
-		} else {
+		if(!metodo.equals("S") && !metodo.equals("C")) {
 			throw new IllegalArgumentException("Metodo escolhido incorreto");
 		}
 	}

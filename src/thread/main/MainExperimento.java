@@ -19,7 +19,7 @@ public class MainExperimento {
 
 		List<String> dimensoes_possiveis = Arrays.asList("4", "8", "16", "32", "64", "128", "256", "512","1024", "2048");
 
-		String[] metodos = {"S"}; //S para Sequencial e C para Concorrente
+		String[] metodos = {"S", "C"}; //S para Sequencial e C para Concorrente
 
 		String nomeMetodosCompleto = "";
 		
@@ -58,7 +58,7 @@ public class MainExperimento {
 				}	
 
 				// Multiplicação das Matrizes
-				for (int vezes = 0; vezes < 1; vezes++) {
+				for (int vezes = 0; vezes < 20; vezes++) {
 					Matriz matriz = new MatrizSequencial(matrizA, matrizB, dimensao);
 
 					if(metodo.equals("S")) {
